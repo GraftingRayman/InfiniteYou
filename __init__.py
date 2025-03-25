@@ -1,5 +1,5 @@
 
-from .Nodes.infu_nodes import LoadInfuModel, ApplyInfu, InfuConditioningParams, LoadInfuInsightFace
+from .nodes.infu_nodes import LoadInfuModel, ApplyInfu, InfuConditioningParams, LoadInfuInsightFace
 
 
 
