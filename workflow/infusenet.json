@@ -1,0 +1,796 @@
+{
+  "last_node_id": 140,
+  "last_link_id": 320,
+  "nodes": [
+    {
+      "id": 91,
+      "type": "UNETLoader",
+      "pos": [
+        300,
+        630
+      ],
+      "size": [
+        300,
+        90
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            310,
+            311
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "UNETLoader"
+      },
+      "widgets_values": [
+        "FLUX1\\flux1-dev.safetensors",
+        "default"
+      ]
+    },
+    {
+      "id": 92,
+      "type": "DualCLIPLoader",
+      "pos": [
+        300,
+        780
+      ],
+      "size": [
+        300,
+        122
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            312,
+            313
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "DualCLIPLoader"
+      },
+      "widgets_values": [
+        "t5\\google_t5-v1_1-xxl_encoderonly-fp8_e4m3fn.safetensors",
+        "clip_l.safetensors",
+        "flux",
+        "default"
+      ]
+    },
+    {
+      "id": 138,
+      "type": "LoadInfuInsightFace",
+      "pos": [
+        300,
+        360
+      ],
+      "size": [
+        315,
+        58
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "INFU_FACEANALYSIS",
+          "type": "INFU_FACEANALYSIS",
+          "links": [
+            319
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadInfuInsightFace"
+      },
+      "widgets_values": [
+        "CUDA"
+      ]
+    },
+    {
+      "id": 137,
+      "type": "LoadInfuModel",
+      "pos": [
+        300,
+        480
+      ],
+      "size": [
+        315,
+        82
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "infu_model",
+          "type": "INFU_MODEL",
+          "links": [
+            318
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadInfuModel"
+      },
+      "widgets_values": [
+        "v1.0",
+        "aes_stage2"
+      ]
+    },
+    {
+      "id": 10,
+      "type": "VAELoader",
+      "pos": [
+        300,
+        960
+      ],
+      "size": [
+        300,
+        60
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "shape": 3,
+          "links": [
+            282
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAELoader"
+      },
+      "widgets_values": [
+        "FLUX1\\ae.safetensors"
+      ]
+    },
+    {
+      "id": 124,
+      "type": "CLIPTextEncode",
+      "pos": [
+        630,
+        570
+      ],
+      "size": [
+        300,
+        150
+      ],
+      "flags": {
+        "collapsed": false
+      },
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 313
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            317
+          ],
+          "slot_index": 0
+        }
+      ],
+      "title": "CLIP Text Encode (Positive Prompt)",
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 123,
+      "type": "CLIPTextEncode",
+      "pos": [
+        630,
+        360
+      ],
+      "size": [
+        300,
+        150
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 312
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            316
+          ],
+          "slot_index": 0
+        }
+      ],
+      "title": "CLIP Text Encode (Positive Prompt)",
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "a pretty woman"
+      ]
+    },
+    {
+      "id": 136,
+      "type": "ApplyInfu",
+      "pos": [
+        960,
+        360
+      ],
+      "size": [
+        315,
+        226
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 310
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 316
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 317
+        },
+        {
+          "name": "infu_model",
+          "type": "INFU_MODEL",
+          "link": 318
+        },
+        {
+          "name": "face_analyzers",
+          "type": "INFU_FACEANALYSIS",
+          "link": 319
+        },
+        {
+          "name": "id_image",
+          "type": "IMAGE",
+          "link": 320
+        },
+        {
+          "name": "control_image",
+          "type": "IMAGE",
+          "shape": 7,
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "links": null
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            314
+          ],
+          "slot_index": 1
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            315
+          ],
+          "slot_index": 2
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ApplyInfu"
+      },
+      "widgets_values": [
+        1,
+        0,
+        1
+      ]
+    },
+    {
+      "id": 135,
+      "type": "GR Image Size",
+      "pos": [
+        630,
+        780
+      ],
+      "size": [
+        300,
+        486
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "dimensions",
+          "type": "IMAGE",
+          "shape": 7,
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "width",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "name": "batch_size",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "name": "length",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "links": [
+            308
+          ],
+          "slot_index": 4
+        },
+        {
+          "name": "seed",
+          "type": "INT",
+          "links": [
+            309
+          ],
+          "slot_index": 5
+        },
+        {
+          "name": "empty_image",
+          "type": "IMAGE",
+          "links": null
+        },
+        {
+          "name": "resized",
+          "type": "IMAGE",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "GR Image Size"
+      },
+      "widgets_values": [
+        512,
+        512,
+        "900x1600 (HD+, Portrait)",
+        1,
+        1,
+        251503531225398,
+        "randomize",
+        "white",
+        false,
+        false,
+        256,
+        1,
+        1
+      ]
+    },
+    {
+      "id": 140,
+      "type": "LoadImage",
+      "pos": [
+        330,
+        1080
+      ],
+      "size": [
+        315,
+        314
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 6,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            320
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "teacache_00006.png",
+        "image"
+      ]
+    },
+    {
+      "id": 134,
+      "type": "SaveImageExtended",
+      "pos": [
+        1650,
+        360
+      ],
+      "size": [
+        315,
+        598
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 307
+        },
+        {
+          "name": "positive_text_opt",
+          "type": "STRING",
+          "shape": 7,
+          "widget": {
+            "name": "positive_text_opt"
+          },
+          "link": null
+        },
+        {
+          "name": "negative_text_opt",
+          "type": "STRING",
+          "shape": 7,
+          "widget": {
+            "name": "negative_text_opt"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "SaveImageExtended"
+      },
+      "widgets_values": [
+        "myFile",
+        "steps, cfg",
+        "testyn",
+        "sampler_name, scheduler",
+        "underscore",
+        "basic, prompt",
+        "disabled",
+        "",
+        "enabled",
+        6,
+        "last",
+        "disabled",
+        "enabled",
+        "",
+        ""
+      ]
+    },
+    {
+      "id": 122,
+      "type": "KSampler",
+      "pos": [
+        960,
+        630
+      ],
+      "size": [
+        300,
+        450
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 311
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 314
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 315
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 308
+        },
+        {
+          "name": "seed",
+          "type": "INT",
+          "widget": {
+            "name": "seed"
+          },
+          "link": 309
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            281
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        733333978557476,
+        "randomize",
+        20,
+        1,
+        "ddim",
+        "simple",
+        1
+      ]
+    },
+    {
+      "id": 125,
+      "type": "VAEDecode",
+      "pos": [
+        960,
+        1140
+      ],
+      "size": [
+        300,
+        60
+      ],
+      "flags": {
+        "collapsed": false
+      },
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 281
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 282
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "shape": 3,
+          "links": [
+            307
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": []
+    }
+  ],
+  "links": [
+    [
+      281,
+      122,
+      0,
+      125,
+      0,
+      "LATENT"
+    ],
+    [
+      282,
+      10,
+      0,
+      125,
+      1,
+      "VAE"
+    ],
+    [
+      307,
+      125,
+      0,
+      134,
+      0,
+      "IMAGE"
+    ],
+    [
+      308,
+      135,
+      4,
+      122,
+      3,
+      "LATENT"
+    ],
+    [
+      309,
+      135,
+      5,
+      122,
+      4,
+      "INT"
+    ],
+    [
+      310,
+      91,
+      0,
+      136,
+      0,
+      "MODEL"
+    ],
+    [
+      311,
+      91,
+      0,
+      122,
+      0,
+      "MODEL"
+    ],
+    [
+      312,
+      92,
+      0,
+      123,
+      0,
+      "CLIP"
+    ],
+    [
+      313,
+      92,
+      0,
+      124,
+      0,
+      "CLIP"
+    ],
+    [
+      314,
+      136,
+      1,
+      122,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      315,
+      136,
+      2,
+      122,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      316,
+      123,
+      0,
+      136,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      317,
+      124,
+      0,
+      136,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      318,
+      137,
+      0,
+      136,
+      3,
+      "INFU_MODEL"
+    ],
+    [
+      319,
+      138,
+      0,
+      136,
+      4,
+      "INFU_FACEANALYSIS"
+    ],
+    [
+      320,
+      140,
+      0,
+      136,
+      5,
+      "IMAGE"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 1,
+      "offset": [
+        0,
+        0
+      ]
+    },
+    "info": {
+      "name": "workflow",
+      "author": "",
+      "description": "",
+      "version": "1",
+      "created": "2025-01-09T15:47:37.441Z",
+      "modified": "2025-01-10T11:11:46.825Z",
+      "software": "ComfyUI"
+    },
+    "node_versions": {
+      "comfy-core": "0.3.26",
+      "ComfyUI_GRTest": "d238a7c4705d73fd5f7b9b6e0b4aeeee2649e34e",
+      "ComfyUI_GraftingRayman": "5ab8dba54db2f0a495476feb707e81349ab4b063",
+      "save-image-extended-comfyui": "5f104fddfc8281d9fd85d03e63c5f70454db6701"
+    }
+  },
+  "version": 0.4
+}
